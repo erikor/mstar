@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <title>jQuery Sparklines Simple Example</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+        body {
+            font-family: helvetica, arial, san-serif;
+            background-color: #fff;
+            text-align: left;
+            font-size: 0.9em;
+            margin: 10em
+        }
+    </style>
+
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.sparkline.min.js"></script>
+    <script type="text/javascript" src="js/math.min.js"></script>
+    <script type="text/javascript" src="js/mstar.js"></script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cutive+Mono" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <h4>Stock Screener</h4>
+    <hr>
+    <div class='typed'>ENTER TICKER SYMBOL: <input class="typed" id="sym"></input><button class="typed" id="submit">Submit</button></div>
+    <div class="loader"></div>
+    <div class='section-title toggle'>Income sheet</div>
+    <div class='section-table toggle' id="income"> </div>
+
+    <div class='section-title toggle'>Balance sheet</div>
+    <div class='section-table toggle' id="balance"> </div>
+
+    <div class='section-title toggle'>Cash flow</div>
+    <div class='section-table toggle' id="cash"> </div>
+
+    <div class='section-title toggle'>Calculated Values</div>
+    <div class='section-table toggle' id="earnings"> </div>
+    <div id="footer" class='toggle'>
+        <div width=200px id="windage_entry" style="float: left;">
+            <br>
+            <div class='typed windage toggle'>WINDAGE GROWTH RATE (%):<br> <input class="typed windage" id="windage_growth"></input></div>
+            <br>
+            <div class='typed windage toggle'>WINDAGE PE:<br> <input class="typed windage" id="windage_pe"></input></div>
+            <br>
+            <div class='typed windage toggle'>WINDAGE EPS:<br> <input class="typed windage" id="windage_eps"></input></div>
+            <br>
+            <div class='typed windage toggle'>MARGIN OF SAFETY PRICE:<br> <span id=mos></span></div>
+        </div>
+        <div class="tradingview-widget-container" style="float: right; margin-top: 20px;">
+            <div id="tradingview_386a3"></div>
+        </div>
+    </div>
+
+
+</html>
