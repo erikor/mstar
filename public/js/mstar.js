@@ -76,6 +76,19 @@ MStar.prototype.fetch = function (reportType) {
     return (self.delayFetch(url));
 }
 
+MStar.prototype.overview = function () {
+    const self = this;
+    return new Promise((resolve, reject) => {
+        fetch('http://financials.morningstar.com/cmpind/company-profile/component.action?component=BusinessDesc&region=usa&culture=en-US&t=' + self.args.t)
+            .then(res => res.text())
+            .then(d => {
+                d = d.replace(/[\s\S]*<p class="r_txt6">([\s\S]*)<\/p>[\s\S]*/, "$1")
+                console.log(d);
+                resolve(d);
+            })
+    })
+}
+
 MStar.prototype.fetchPE = function () {
     const self = this;
     let symbol = $("#sym").val();
@@ -286,11 +299,13 @@ $(function () {
         var reports = ["is", "bs", "cf"]
         var q = reports.map(r => quoter.fetch(r));
         q.push(quoter.fetchPE());
+        q.push(quoter.overview());
         Promise.all(q)
             .then((r) => {
                 $("#income").html(r[0]);
                 $("#balance").html(r[1]);
                 $("#cash").html(r[2]);
+                $("#overview").html(r[4]);
                 $("#earnings").html(quoter.calculated());
                 $('.inlinesparkline').sparkline("html",
                     {

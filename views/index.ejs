@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
 <head>
-    <title>jQuery Sparklines Simple Example</title>
+    <title>Stock Screen</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <style type="text/css">
         body {
@@ -31,6 +31,10 @@
     <hr>
     <div class='typed'>ENTER TICKER SYMBOL: <input class="typed" id="sym"></input><button class="typed" id="submit">Submit</button></div>
     <div class="loader"></div>
+    
+    <div class='section-title toggle'>Company Overview</div>
+    <div id="overview" class="overview toggle"></div>
+
     <div class='section-title toggle'>Income sheet</div>
     <div class='section-table toggle' id="income"> </div>
 
