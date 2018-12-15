@@ -128,3 +128,9 @@ tr:first-child td {
 #mos {
   font-size: 18px;
 }
+
+#chart {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 900;
+}

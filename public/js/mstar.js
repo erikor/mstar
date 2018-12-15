@@ -255,6 +255,56 @@ MStar.prototype.ekvel = function (v) {
     return ((x * 100).toFixed(2) + '%');
 }
 
+function chartDaily(sym, w) {
+    let points = { x: [], y: [], 
+                    mode: 'lines',
+                    line: {
+                        color: "#777777"
+                    }
+    }
+    let lines = { x: [], y: [], mode: 'lines'}
+    let x = 100;
+    let layout = {
+        xaxis: {
+            tickfont: {
+              family: 'sans-serif',
+              size: 8,
+              color: '#aaaaaa'
+            }
+          },
+          yaxis: {
+            tickfont: {
+              family: 'sans-serif',
+              size: 8,
+              color: '#aaaaaa'
+            }
+          },
+          margin: {
+            l: 0,
+            r: 0,
+            b: 10,
+            t: 0,
+            pad: 0
+          },
+    }
+    let url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + sym + '&apikey=P7RYKX65S2VYXVBY';
+    fetch(url)
+    .then(res => res.text())
+    .then(d => {
+        let h = JSON.parse(d)["Time Series (Daily)"];
+        for(k in h) {
+            points.y.push(h[k]['4. close']);
+            points.x.push(k);
+            x -= 1;
+        }
+        let data = [ points ];
+        let el = sym + " - $" + points.y[0];
+        console.log(el)
+        w.append(el);
+        Plotly.plot(w, data, layout);    
+    })
+}
+
 function calcMOS() {
     let growth = $("#windage_growth").val() / 100;
     let eps = $("#windage_eps").val();
@@ -266,34 +316,11 @@ function calcMOS() {
     $("#mos").html("$" + Math.round(sticker_price / 2));
 }
 
-function setWidget() {
-    new TradingView.widget(
-        {
-            "width": 500,
-            "height": 200,
-            "symbol": $("#sym").val(),
-            "interval": "W",
-            "timezone": "Etc/UTC",
-            "theme": "Light",
-            "style": "1",
-            "locale": "en",
-            "toolbar_bg": "#f1f3f6",
-            "enable_publishing": false,
-            "hide_top_toolbar": true,
-            "hide_legend": true,
-            "withdateranges": true,
-            "save_image": false,
-            "container_id": "tradingview_386a3"
-        }
-    );
-}
-
 $(function () {
     let quoter = new MStar();
     $(".windage").change(calcMOS);
     $('.inlinesparkline').sparkline();
     $("#submit").click(() => {
-        setWidget();
         $(".toggle").css('visibility', 'hidden');
         $(".loader").css('display', 'block');
         var reports = ["is", "bs", "cf"]
@@ -315,6 +342,7 @@ $(function () {
                         barWidth: 5,
                         barSpacing: 2
                     })
+                chartDaily($("#sym").val(), $("#chart")[0])
                 $(".loader").css('display', 'none');
                 $(".toggle").css('visibility', 'visible');
 
