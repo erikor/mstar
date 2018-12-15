@@ -4,8 +4,13 @@ body {
   margin-top: 0px;
 }
 
+#container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
 h4 {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Montserrat';
   font-weight: 900;
   margin: 0px;
   font-size: 20px;
@@ -42,38 +47,43 @@ td.data {
 }
 
 td.sparkline {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
   width: 60px;
   margin-right: 20px;
   padding-right: 20px;
 }
 
 td.rowname {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Raleway';
   font-size: 10px;
   font-weight: 900;
   width: 150px;
   white-space: nowrap; 
   text-overflow:ellipsis; 
+  text-align: right;
+  color: #50656D;
+  background-color: #EBEFF1;
   overflow: hidden;
 }
 
 tr:first-child td {
+  font-family: 'Raleway';
   border-top: 2px solid black;
   border-bottom: 1px solid black;
   font-weight: 900;
-  background-color: #eeeeee;
-  vertical-align: bottom;
+  font-size: 10px;
+  color: #50656D;
+  background-color: #EBEFF1;
+  vertical-align: middle;
   text-align: center;
+  height: 20px;
 }
 
 .section-title {
   margin-top: 0px;
   margin-bottom: 5px;
   text-transform: uppercase;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
+  font-family: 'Montserrat';
+  font-size: 12px;
   margin-top: 15px;
   font-weight: 900;
   visibility: hidden;
@@ -82,8 +92,8 @@ tr:first-child td {
 .overview {
   margin-top: 5px;
   margin-bottom: 15px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
+  font-family: 'Raleway';
+  font-size: 12px;
   margin-top: 15px;
   font-weight: 100;
   visibility: hidden;
@@ -110,12 +120,17 @@ tr:first-child td {
   visibility: hidden;
 }
 
-#windage_entry {
+#windage_label {
+  font-family: 'Raleway';
   font-weight: 900;
   margin-left: 0px;
   margin-right: auto;
   max-width: 200px;
   height: 300px;
+}
+
+.windage_input {
+  margin-bottom: 10px;
 }
 
 #footer {
@@ -129,8 +144,34 @@ tr:first-child td {
   font-size: 18px;
 }
 
+.quote_sym {
+  font-family: 'Montserrat';
+  font-size: 10px;
+  color: "#555555";
+  font-weight: 100;
+}
+
+#quote_price {
+  font-family: 'Montserrat';
+  font-size: 14px;
+  color: "#000000";
+  font-weight: 900;
+}
+
 #chart {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   font-weight: 900;
+}
+
+.interval {
+  font-size: 8px;
+  font-weight: 100;
+}
+
+#chart-container {
+  border: 1px solid #50656D;
+  float:right;
+  padding: 5px;
+  margin-top: 20px;
 }

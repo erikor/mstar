@@ -83,7 +83,6 @@ MStar.prototype.overview = function () {
             .then(res => res.text())
             .then(d => {
                 d = d.replace(/[\s\S]*<p class="r_txt6">([\s\S]*)<\/p>[\s\S]*/, "$1")
-                console.log(d);
                 resolve(d);
             })
     })
@@ -127,11 +126,11 @@ MStar.prototype.textToCols = function (d) {
             res += "<tr><td class='rowname'> </td>";
             self.header = "<tr><td class='rowname'> </td>";
             vals.forEach(function (v) {
-                self.header += "<td class='data', align='right'>" + v + "</td>";
-                res += "<td class='data', align='right'>" + v + "</td>";
+                self.header += "<td class='header', align='right'>" + v + "</td>";
+                res += "<td class='header', align='right'>" + v + "</td>";
             })
-            res += "<td class='sparkline'>Sparkline</td><td class='data'>Mean Delta</td><td class='data'>Median Delta</td><td class='data'>EK Velocity</td></tr>";
-            self.header += "<td class='sparkline'>Sparkline</td><td class='data'>Mean Delta</td><td class='data'>Median Delta</td><td class='data'>EK Velocity</td></tr>";
+            res += "<td class='sparkline header'>Sparkline</td><td class='header'>Mean Delta</td><td class='header'>Median Delta</td><td class='header'>EK Velocity</td></tr>";
+            self.header += "<td class='sparkline'>Sparkline</td><td class='header'>Mean Delta</td><td class='header'>Median Delta</td><td class='header'>EK Velocity</td></tr>";
 
         } else if (vals[0].match(/Weighted average shares/)) {
             shares = true;
@@ -255,7 +254,16 @@ MStar.prototype.ekvel = function (v) {
     return ((x * 100).toFixed(2) + '%');
 }
 
-function chartDaily(sym, w) {
+function toTitleCase(str) {
+    return str.replace(
+        /\w\S*/g,
+        function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
+    );
+}
+
+function chartData(sym, w, interval='daily') {
     let points = { x: [], y: [], 
                     mode: 'lines',
                     line: {
@@ -285,23 +293,43 @@ function chartDaily(sym, w) {
             b: 10,
             t: 0,
             pad: 0
-          },
+          }
     }
-    let url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + sym + '&apikey=P7RYKX65S2VYXVBY';
+    let resource = "TIME_SERIES_" + interval.toUpperCase();
+    let url = 'https://www.alphavantage.co/query?function=' + resource + '&symbol=' + sym + '&apikey=P7RYKX65S2VYXVBY';
+    console.log(url)
     fetch(url)
     .then(res => res.text())
     .then(d => {
-        let h = JSON.parse(d)["Time Series (Daily)"];
+        if(d.match(/Thank you/)) {
+            let prev = $("#quote")
+            $("#quote").remove();
+            $("#chart-container").prepend("<span id=quote>Too many requests...wait 15s.</span>")
+            setTimeout(() => {
+                $("#quote").remove();
+                $("#chart-container").prepend(prev)
+                $("#daily").click(() => { chartData($("#sym").val(), $("#chart")[0], "daily")})
+                $("#monthly").click(() => { chartData($("#sym").val(), $("#chart")[0], "monthly")})
+            }, 10000);
+            return(0);
+        }
+        let h = JSON.parse(d);
+        h = h[Object.keys(h)[1]];
         for(k in h) {
             points.y.push(h[k]['4. close']);
             points.x.push(k);
             x -= 1;
         }
         let data = [ points ];
-        let el = sym + " - $" + points.y[0];
-        console.log(el)
-        w.append(el);
-        Plotly.plot(w, data, layout);    
+        let price = points.y[0];
+        $("#quote").remove();
+        $("#chart-container").prepend("<span id=quote><span class='quote_sym'>" + sym.toUpperCase() + 
+                                      "</span><span class='quote_price'> " + price + "</span><span class='quote_sym'> " +
+                                      "<span class='interval' id='daily'> &nbsp &nbsp daily |</span>" +
+                                      "<span class='interval' id='monthly'> monthly </span></span>")
+        $("#daily").click(() => { chartData($("#sym").val(), $("#chart")[0], "daily")})
+        $("#monthly").click(() => { chartData($("#sym").val(), $("#chart")[0], "monthly")})
+        Plotly.newPlot(w, data, layout, {displayModeBar: false});    
     })
 }
 
@@ -318,7 +346,7 @@ function calcMOS() {
 
 $(function () {
     let quoter = new MStar();
-    $(".windage").change(calcMOS);
+    $(".windage_input").change(calcMOS);
     $('.inlinesparkline').sparkline();
     $("#submit").click(() => {
         $(".toggle").css('visibility', 'hidden');
@@ -342,7 +370,7 @@ $(function () {
                         barWidth: 5,
                         barSpacing: 2
                     })
-                chartDaily($("#sym").val(), $("#chart")[0])
+                chartData($("#sym").val(), $("#chart")[0], "weekly")
                 $(".loader").css('display', 'none');
                 $(".toggle").css('visibility', 'visible');
 

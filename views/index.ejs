@@ -20,16 +20,17 @@
     <script type="text/javascript" src="js/math.min.js"></script>
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript" src="js/mstar.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cutive+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway|IBM+Plex+Mono|Nunito" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
+    <div id="container"> 
+
     <h4>Stock Screener</h4>
     <hr>
-    <div class='typed'>ENTER TICKER SYMBOL: <input class="typed" id="sym"></input><button class="typed" id="submit">Submit</button></div>
+    <div class='typed'>ENTER TICKER SYMBOL: <input class="typed" id="sym"><button class="typed" id="submit">Submit</button></div>
     <div class="loader"></div>
 
     <div class='section-title toggle'>Company Overview</div>
@@ -49,17 +50,17 @@
     <div id="footer" class='toggle'>
         <div width=200px id="windage_entry" style="float: left;">
             <br>
-            <div class='typed windage toggle'>WINDAGE GROWTH RATE (%):<br> <input class="typed windage" id="windage_growth"></input></div>
-            <br>
-            <div class='typed windage toggle'>WINDAGE PE:<br> <input class="typed windage" id="windage_pe"></input></div>
-            <br>
-            <div class='typed windage toggle'>WINDAGE EPS:<br> <input class="typed windage" id="windage_eps"></input></div>
-            <br>
-            <div class='typed windage toggle'>MARGIN OF SAFETY PRICE:<br> <span id=mos></span></div>
+            <div class='typed windage_label toggle'>WINDAGE GROWTH RATE (%):<br> <input class="typed windage_input" id="windage_growth"></input></div>
+            <div class='typed windage_label toggle'>WINDAGE PE:<br> <input class="typed windage_input" id="windage_pe"></input></div>
+            <div class='typed windage_label toggle'>WINDAGE EPS:<br> <input class="typed windage_input" id="windage_eps"></input></div>
+            <div class='typed windage_label toggle'>MARGIN OF SAFETY PRICE:<br> <span id=mos></span></div>
         </div>
-        <div id="chart" class='toggle' style="width:300px;height:150px;float:right;margin-top:30px;">
+        <div id="chart-container" class='toggle'>
+        <div id="chart" class='toggle' style="width:300px;height:130px;">
+        </div>
         </div>
     </div>
+</div>
 
-
+</body>
 </html>
