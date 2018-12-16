@@ -290,7 +290,7 @@ function chartData(sym, w, interval='daily') {
           margin: {
             l: 0,
             r: 0,
-            b: 40,
+            b: 20,
             t: 0,
             pad: 0
           },
