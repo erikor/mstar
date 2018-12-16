@@ -4,6 +4,10 @@ body {
   margin-top: 0px;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 #container {
   width: 1200px;
   margin: 0 auto;

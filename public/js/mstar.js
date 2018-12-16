@@ -290,13 +290,22 @@ function chartData(sym, w, interval='daily') {
           margin: {
             l: 0,
             r: 0,
-            b: 10,
+            b: 40,
             t: 0,
             pad: 0
+          },
+          hoverlabel: {
+            bgcolor: '#EBEFF1',
+            font: {size: '9', family: 'Raleway', color: '#50656D' }
           }
     }
+
+    config = {
+        displayModeBar: false,
+    }
+
     let resource = "TIME_SERIES_" + interval.toUpperCase();
-    let url = 'https://www.alphavantage.co/query?function=' + resource + '&symbol=' + sym + '&apikey=P7RYKX65S2VYXVBY';
+    let url = '/alpha/' + interval + '?sym=' + sym;
     console.log(url)
     fetch(url)
     .then(res => res.text())
@@ -325,11 +334,11 @@ function chartData(sym, w, interval='daily') {
         $("#quote").remove();
         $("#chart-container").prepend("<span id=quote><span class='quote_sym'>" + sym.toUpperCase() + 
                                       "</span><span class='quote_price'> " + price + "</span><span class='quote_sym'> " +
-                                      "<span class='interval' id='daily'> &nbsp &nbsp daily |</span>" +
-                                      "<span class='interval' id='monthly'> monthly </span></span>")
+                                      "<span class='interval pointer' id='daily'> &nbsp &nbsp daily |</span>" +
+                                      "<span class='interval pointer' id='monthly'> monthly </span></span>")
         $("#daily").click(() => { chartData($("#sym").val(), $("#chart")[0], "daily")})
         $("#monthly").click(() => { chartData($("#sym").val(), $("#chart")[0], "monthly")})
-        Plotly.newPlot(w, data, layout, {displayModeBar: false});    
+        Plotly.newPlot(w, data, layout, config);    
     })
 }
 
@@ -370,7 +379,7 @@ $(function () {
                         barWidth: 5,
                         barSpacing: 2
                     })
-                chartData($("#sym").val(), $("#chart")[0], "weekly")
+                chartData($("#sym").val(), $("#chart")[0], "monthly")
                 $(".loader").css('display', 'none');
                 $(".toggle").css('visibility', 'visible');
 
