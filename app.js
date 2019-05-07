@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var alphaRouter = require('./routes/alpha');
 var dbRouter = require('./routes/db');
+var mstarRouter = require('./routes/mstar');
 
 var app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/mstar', mstarRouter);
 app.use('/alpha', alphaRouter);
 app.use('/db', dbRouter);
 

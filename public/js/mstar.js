@@ -1,7 +1,6 @@
 let q = 0;
 
 var MStar = function () {
-    this.baseurl = "http://financials.morningstar.com/ajax/ReportProcess4CSV.html"
     this.valurl = "http://financials.morningstar.com/valuate/valuation-history.action"
     this.args = {
         "t": "AAPL",
@@ -72,7 +71,7 @@ MStar.prototype.fetch = function (reportType) {
     let symbol = $("#sym").val();
     this.args.t = symbol;
     this.args.reportType = reportType;
-    let url = self.baseurl + "?" + $.param(self.args);
+    let url = "/mstar/" + reportType + "/" + symbol;
     return (self.delayFetch(url));
 }
 
@@ -306,7 +305,6 @@ function chartData(sym, w, interval='daily') {
 
     let resource = "TIME_SERIES_" + interval.toUpperCase();
     let url = '/alpha/' + interval + '?sym=' + sym;
-    console.log(url)
     fetch(url)
     .then(res => res.text())
     .then(d => {
@@ -386,3 +384,4 @@ $(function () {
             })
     })
 });
+
